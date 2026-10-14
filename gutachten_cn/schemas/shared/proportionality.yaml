@@ -1,0 +1,110 @@
+system: proportionality
+label: 论证深度比例原则
+domain: shared
+default: false
+version: 1
+
+description: >
+  论证的深度应当与问题的争议程度成正比：明显成立或不成立者一句带过，
+  存在合理争议者完整涵摄，核心争议要件穷尽方法论工具。
+  优秀的鉴定式报告如同五花肉，肥瘦相间、节奏分明；平均用力即失衡。
+
+source: |
+  鉴定式写作通例；本仓库配套的 `gutachten-criminal-case` 工作流
+  （methodology/proportionality.md）。
+
+stages:
+  - id: levels
+    label: 论证深度三层
+    order: 1
+    nature: 逐要件判断层级后再决定篇幅
+    checks:
+      - id: level1
+        label: 第一层　明显成立或不成立
+        required: true
+        elements:
+          - 论证模式：裁判式，1–2 句
+          - 典型：行为主体为成年精神正常自然人、行为对象明确、结果已明示、责任能力无疑义、无任何正当化情节线索
+          - 纪律：不得跳过，必须有一句话确认；案情暗含异常（如年龄接近临界值）时不得归入本层
+      - id: level2
+        label: 第二层　存在合理争议
+        required: true
+        elements:
+          - 论证模式：标准鉴定式·涵摄四步法，1–2 段（150–400 字）
+          - 典型：构成要件行为是否足以致命、因果关系是否被介入因素中断、客观归责中风险是否实现、间接故意与有认识过失的界分、未遂的着手判定、共同正犯的共同行为决意
+      - id: level3
+        label: 第三层　核心争议焦点
+        required: true
+        elements:
+          - 论证模式：深度鉴定式＝涵摄＋法律解释＋学说争议＋反对说回应＋立场贯彻
+          - 典型：偶然防卫、容许构成要件错误、客观归责的具体应用、复行为构造、注意规定与法律拟制的鉴别、兜底条款的限缩
+
+  - id: diagnosis
+    label: 层级判定四问
+    order: 2
+    nature: 对每个要件依次回答后综合定级
+    checks:
+      - id: q1
+        label: Q1　核心语义检验
+        required: true
+        elements:
+          - 案件事实是否直接、无疑义地落入概念核心区？是则倾向第一层
+      - id: q2
+        label: Q2　概念可把握性
+        required: true
+        elements:
+          - 概念边界是否依文义即可清晰把握、无需解释方法介入？是则倾向第一层，否则倾向第二或三层
+      - id: q3
+        label: Q3　学说或实务分歧
+        required: true
+        elements:
+          - 学界或司法实务对此情形是否存在分歧？有重大分歧则第三层
+      - id: q4
+        label: Q4　决定性检验
+        required: true
+        elements:
+          - 该要件的判断是否决定罪名成立或重要走向？是且 Q3 有分歧则第三层
+
+  - id: doctrine_rules
+    label: 学说争议展开规则
+    order: 3
+    nature: 第三层要素适用
+    checks:
+      - id: same_conclusion
+        label: 结论一致则不问理由
+        required: true
+        elements:
+          - 所有有代表性的学说均得出相同结论时，无需展开争议，但应在脚注点明争议存在与各说结论一致
+          - 例外：若后续问题的处理取决于采哪一说，则必须显性选边
+      - id: positive_reason
+        label: 选择立场须给出积极理由
+        required: true
+        elements:
+          - 体系融贯性
+          - 法益保护充分性
+          - 罪刑法定遵守
+          - 实践可操作性
+      - id: opposing_view
+        label: 反对说回应
+        required: true
+        elements:
+          - 须实质回应，不得简单重复己方观点
+          - 司法判例支持的反对说必须作事实区分或正面回应
+
+  - id: self_check
+    label: 自查清单
+    order: 4
+    nature: 成稿后核对
+    checks:
+      - id: check_items
+        label: 成稿自查
+        required: true
+        elements:
+          - 是否对每个要件都做了层级判断
+          - 有无将争议要素错误归入第一层（漏写）
+          - 有无将显然要素错误归入第三层（堆料）
+          - 第二层要素是否均完成涵摄四步法
+          - 第三层要素是否包含法律解释＋学说展开＋反对说回应
+          - 学说争议结论一致时是否在脚注点明
+          - 立场选择是否给出积极理由，整篇是否贯彻同一立场
+          - 核心争议是否占全文主要篇幅，有无前重后轻

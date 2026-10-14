@@ -22,7 +22,15 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CRIMINAL_SAMPLE = ROOT / "examples" / "criminal_sample.md"
 CIVIL_SAMPLE = ROOT / "examples" / "civil_sample.md"
 
-EXPECTED_SYSTEMS = {"three-tier", "two-tier", "four-element", "claim-basis"}
+EXPECTED_SYSTEMS = {
+    "three-tier",
+    "two-tier",
+    "four-element",
+    "claim-basis",
+    "examination-sequence",
+    "crime-forms",
+    "proportionality",
+}
 
 
 def test_all_systems_are_loadable():
@@ -34,7 +42,7 @@ def test_all_systems_are_loadable():
 def test_system_has_required_metadata(name):
     system = load_system(name)
     assert system["label"]
-    assert system.get("domain") in {"criminal", "civil"}
+    assert system.get("domain") in {"criminal", "civil", "shared"}
     assert system.get("source"), f"{name} 必须写规则依据"
     assert system["stages"]
 
@@ -85,6 +93,23 @@ def test_check_reports_missing_when_stage_removed():
     assert not result["complete"]
     assert any("责任能力" in m for m in result["missing"])
     assert result["coverage"] < 100
+
+
+def test_crime_forms_covers_attempt_and_omission():
+    """犯罪形态程式必须区分未遂与不作为，二者结构与标准三阶层不同。"""
+    system = load_system("crime-forms")
+    outline = render_outline(system)
+    for label in ("未遂犯", "共犯", "不作为犯", "过失犯"):
+        assert label in outline
+
+
+def test_proportionality_declares_three_levels():
+    """论证深度三层是比例原则的核心，缺一层即失衡。"""
+    system = load_system("proportionality")
+    outline = render_outline(system)
+    for label in ("第一层", "第二层", "第三层"):
+        assert label in outline
+    assert "结论一致则不问理由" in outline
 
 
 def test_claim_basis_order_is_declared():

@@ -1,0 +1,137 @@
+system: examination-sequence
+label: 五步分析法（宏观框架）
+domain: criminal
+default: false
+version: 1
+
+description: >
+  处理复杂刑法案例的宏观框架，规定从案件事实到最终结论的完整路径：
+  事实单元划分 → 参与人员列举 → 涉嫌犯罪检验 → 犯罪竞合处理 → 全案结论。
+  本体系与 three-tier 配合使用：three-tier 规定第三步的内部结构，本体系负责其余四步。
+
+source: |
+  鉴定式案例研习的外在结构通例；本仓库配套的 `gutachten-criminal-case` 工作流
+  （methodology/examination-sequence.md）。
+
+note: >
+  事实单元的标签必须使用中性描述，不得预设法律评价——这是本体系最容易被忽视的纪律。
+
+stages:
+  - id: step1
+    label: 事实单元划分
+    order: 1
+    nature: 按行为标准划分
+    checks:
+      - id: behavior_standard
+        label: 行为标准与六条划分规则
+        required: true
+        elements:
+          - R1　一行为一结果＝一单元
+          - R2　预备行为不独立成单元，与实行行为归入同一单元
+          - R3　共同犯罪归入同一单元
+          - R4　时间断裂可分割
+          - R5　行为方式或目标根本变化即新单元
+          - R6　基于同一犯罪决意的连续行为不拆分
+      - id: neutral_label
+        label: 中性标签命名（不得预设法律评价）
+        required: true
+        elements:
+          - 使用客观描述，避免以罪名或法律结论作标签
+          - 正确：甲对乙的殴打行为；错误：甲的故意伤害行为
+          - 正确：丙取走丁的手机；错误：丙盗窃丁的手机
+          - 正确：戊驾车撞击行人；错误：戊的交通肇事
+
+  - id: step2
+    label: 参与人员列举
+    order: 2
+    nature: 密接者优先
+    checks:
+      - id: all_participants
+        label: 全面列举每一单元的参与人
+        required: true
+        elements:
+          - 直接实施者
+          - 间接利用者
+          - 教唆者
+          - 帮助者
+          - 无刑事责任能力者（关系到间接正犯与正当防卫的判断，仍须完成构成要件与违法性检验，在有责性阶层否定即可）
+      - id: proximity_order
+        label: 分析顺序（越接近法益侵害结果者越优先）
+        required: true
+        elements:
+          - 直接正犯
+          - 间接正犯
+          - 共同正犯
+          - 教唆犯
+          - 帮助犯
+
+  - id: step3
+    label: 涉嫌犯罪检验
+    order: 3
+    nature: 逐人逐罪
+    checks:
+      - id: tier_examination
+        label: 每一罪名依三阶层检验
+        required: true
+        elements:
+          - 构成要件该当性
+          - 违法性
+          - 有责性
+      - id: charge_search_order
+        label: 罪名检索顺序
+        required: true
+        elements:
+          - 先正犯后共犯
+          - 先既遂后未遂
+          - 先故意后过失
+          - 先重罪后轻罪
+          - 特别法优于一般法（特别法成立即排除一般法，不成立才退回）
+          - 法益导向：先识别受侵害法益，再对应分则章节检索
+          - 罪名穷尽原则：凡有合理适用可能性的罪名均须检验
+      - id: form_variants
+        label: 犯罪形态的检验变体（见 crime-forms）
+        required: false
+        elements:
+          - 未遂犯
+          - 共犯
+          - 不作为犯
+          - 过失犯
+
+  - id: step4
+    label: 犯罪竞合处理
+    order: 4
+    nature: 在同一事实单元内，罪名检验结束后进行
+    checks:
+      - id: concurrence_types
+        label: 竞合类型判断
+        required: true
+        elements:
+          - 想象竞合：一行为触犯数罪名，从一重处断
+          - 法条竞合：特别关系／补充关系／吸收关系／择一关系
+          - 实质竞合：数行为触犯数罪名，数罪并罚
+          - 牵连犯：手段与目的或原因与结果，从一重处断
+          - 吸收犯：重行为吸收轻行为
+      - id: concurrence_procedure
+        label: 判断流程
+        required: true
+        elements:
+          - 确认本单元内成立几个罪名
+          - 判断行为个数（自然行为单数或复数）
+          - 一行为多罪名→想象竞合或法条竞合；多行为多罪名→实质竞合或牵连犯
+          - 确定最终适用法条与刑罚计算方式
+
+  - id: step5
+    label: 全案结论
+    order: 5
+    nature: 逐人逐罪列明
+    checks:
+      - id: conclusion_elements
+        label: 每罪必须包含的六要素
+        required: true
+        elements:
+          - 参与形态（直接正犯／间接正犯／共同正犯／教唆犯／帮助犯）
+          - 犯罪形态（既遂／未遂／中止／预备）
+          - 法条编号（第 X 条第 X 款第 X 项）
+          - 罪名全称
+          - 加重或减轻情节
+          - 竞合关系

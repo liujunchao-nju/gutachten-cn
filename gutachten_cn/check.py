@@ -19,12 +19,24 @@ def required_checks(system: dict) -> list[tuple[str, str, str]]:
     return out
 
 
+def _matchable(text: str) -> str:
+    """排除 Markdown 表格行后再做匹配。
+
+    说明性表格（如论证深度一览）中提及的要件名并不等于该要件已展开论证，
+    若不过滤会把「表格里提了一句」误判为「已覆盖」。
+    """
+    return "\n".join(
+        line for line in text.splitlines() if not line.lstrip().startswith("|")
+    )
+
+
 def check_report(system: dict, text: str) -> dict:
     """比对报告正文与检视程式，输出命中与缺失。"""
+    body = _matchable(text)
     found: list[str] = []
     missing: list[str] = []
     for stage_label, chk_label, _ in required_checks(system):
-        if chk_label in text:
+        if chk_label in body:
             found.append(f"{stage_label} / {chk_label}")
         else:
             missing.append(f"{stage_label} / {chk_label}")

@@ -1,0 +1,116 @@
+system: crime-forms
+label: 犯罪形态检视程式
+domain: criminal
+default: false
+version: 1
+
+description: >
+  既遂之外的犯罪形态各有专门检视程式，要件结构与标准三阶层不同，
+  套用通用程式会漏项。本体系列出未遂、共犯、不作为、过失四类变体。
+
+source: |
+  鉴定式案例研习通例；本仓库配套的 `gutachten-criminal-case` 工作流
+  （methodology/examination-sequence.md §1.4.3、methodology/crime-type-library/）。
+
+stages:
+  - id: completed
+    label: 既遂犯（标准检验）
+    order: 1
+    nature: 构成要件完全实现
+    checks:
+      - id: completed_check
+        label: 构成要件完全实现
+        required: true
+        elements:
+          - 客观构成要件全部实现
+          - 主观构成要件具备
+
+  - id: attempt
+    label: 未遂犯
+    order: 2
+    nature: 构成要件未完全实现时的变体
+    checks:
+      - id: attempt_elements
+        label: 未遂三要素
+        required: true
+        elements:
+          - 犯罪决意：完成罪的全部主观要素，对客观构成要件要素有认识与意志
+          - 着手实行：主观上认为已开始实现构成要件，客观上已直接危及法益
+          - 未达既遂：结果未发生或构成要件未完全实现
+      - id: attempt_effect
+        label: 法律效果
+        required: false
+        elements:
+          - 刑法第 23 条第二款，可以比照既遂犯从轻或者减轻处罚
+      - id: abandonment
+        label: 中止犯检验（刑罚解除事由）
+        required: false
+        elements:
+          - 自愿放弃或自动有效防止结果发生
+
+  - id: complicity
+    label: 共犯
+    order: 3
+    nature: 限制从属性说
+    checks:
+      - id: complicity_elements
+        label: 共犯成立要件
+        required: true
+        elements:
+          - 正犯的不法行为（至少达构成要件符合＋违法）
+          - 共犯行为：教唆犯引起正犯犯意／帮助犯提供物质或精神便利
+          - 共犯故意：双重故意，对自己的共犯行为与对正犯的不法行为均有认识与意志
+      - id: complicity_subjects
+        label: 参与形态
+        required: true
+        elements:
+          - 直接正犯
+          - 间接正犯（利用他人为工具）
+          - 共同正犯
+          - 教唆犯
+          - 帮助犯
+
+  - id: omission
+    label: 不作为犯
+    order: 4
+    nature: 以不作为方式实现构成要件
+    checks:
+      - id: omission_elements
+        label: 客观构成要件
+        required: true
+        elements:
+          - 构成要件结果的发生
+          - 不作为
+          - 作为可能性
+          - 保证人地位（不真正不作为犯）
+          - 因果关系（准因果关系：若实施作为则结果极有可能不发生）
+          - 客观归责
+          - 等价性（不真正不作为犯）
+      - id: omission_subjective
+        label: 主观构成要件
+        required: true
+        elements:
+          - 故意
+          - 过失
+
+  - id: negligence
+    label: 过失犯
+    order: 5
+    nature: 注意义务违反为中心
+    checks:
+      - id: negligence_objective
+        label: 客观构成要件
+        required: true
+        elements:
+          - 客观注意义务违反
+          - 客观可预见性
+          - 结果发生
+          - 因果关系
+          - 客观归责（注意义务违反关联性）
+          - 规范保护目的
+      - id: negligence_subjective
+        label: 主观构成要件
+        required: true
+        elements:
+          - 主观可预见性
+          - 主观可避免性
