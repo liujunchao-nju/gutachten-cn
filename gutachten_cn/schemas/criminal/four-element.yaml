@@ -1,0 +1,53 @@
+system: four-element
+label: 四要件犯罪构成（法考结论校验层）
+domain: criminal
+default: false
+version: 1
+
+description: >
+  平面耦合式结构：四个要件并列，全部具备才成立犯罪，不分阶层、不作递进筛查。
+  本体系用于结论校验——阶层分析完成后，回到四要件核对定罪结论是否一致。
+
+source: |
+  马工程教材立场（2025 年 5 月司法部明确）：法考以四要件为基础，允许运用阶层论的
+  思维方式辅助分析。在具体题目中，定罪结论应与四要件一致；分析过程可先判断客观
+  （不法），再判断主观（责任）。四要件为：犯罪客体、犯罪客观方面、犯罪主体、
+  犯罪主观方面。
+
+note: >
+  四要件无递进关系，因此不适合作为鉴定式分析的主干（鉴定式依赖阶层筛查），
+  本仓库仅将其作为结论校验清单使用。
+
+stages:
+  - id: elements
+    label: 四要件（并列检验）
+    order: 1
+    nature: 平面耦合
+    checks:
+      - id: object
+        label: 犯罪客体
+        required: true
+        elements:
+          - 刑法所保护而被侵害的社会关系（法益）
+      - id: objective_aspect
+        label: 犯罪客观方面
+        required: true
+        elements:
+          - 危害行为
+          - 危害结果
+          - 因果关系
+          - 行为的时间、地点、方法
+      - id: subject
+        label: 犯罪主体
+        required: true
+        elements:
+          - 自然人或单位
+          - 刑事责任年龄
+          - 刑事责任能力
+      - id: subjective_aspect
+        label: 犯罪主观方面
+        required: true
+        elements:
+          - 故意
+          - 过失
+          - 目的与动机

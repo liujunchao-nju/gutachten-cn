@@ -1,0 +1,85 @@
+system: claim-basis
+label: 请求权基础七步检索
+domain: civil
+default: true
+version: 1
+
+description: >
+  以「谁得向谁，依据何种法律规范，主张何种权利」为核心命题，按固定顺序逐项检索
+  可能成立的请求权，以避免遗漏与重复。顺序在先的请求权成立时，往往排除顺序在后的
+  请求权，具有思维经济性。
+
+source: |
+  王泽鉴《民法思维——请求权基础理论体系》（大陆版书名亦作《法律思维与民法实例》）。
+  检索顺序经五个独立权威来源表述一致：湖北高院、河南新县法院、河北定州法院、
+  北京法院网、中国法院网。
+  顺序理由：契约关系多为其他请求权的前提问题——当事人间有委托合同即不构成无因管理；
+  基于合同占有某物即属有权占有，所有权人不得请求返还；当事人间有合同关系时，一方
+  取得的利益具有法律上原因，不构成不当得利。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质（确认之诉／形成之诉／给付之诉）与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: claim_search
+    label: 请求权检索（依序）
+    order: 1
+    nature: 顺序检索
+    checks:
+      - id: contract
+        label: 契约上请求权
+        required: true
+        elements:
+          - 契约成立与生效
+          - 给付义务内容
+          - 履行迟延／履行不能／不完全给付
+      - id: quasi_contract
+        label: 无权代理等类似契约关系上请求权
+        required: true
+        elements:
+          - 无权代理
+          - 缔约过失
+          - 无权处分
+      - id: negotiorum_gestio
+        label: 无因管理上请求权
+        required: true
+        elements:
+          - 管理他人事务
+          - 有为他人管理的意思
+          - 无法定或约定的义务
+      - id: property
+        label: 物权关系上请求权
+        required: true
+        elements:
+          - 所有物返还请求权
+          - 排除妨害
+          - 消除危险
+      - id: unjust_enrichment
+        label: 不当得利请求权
+        required: true
+        elements:
+          - 一方受有利益
+          - 致他方受损害
+          - 无法律上原因
+      - id: tort
+        label: 侵权行为损害赔偿请求权
+        required: true
+        elements:
+          - 加害行为
+          - 侵害他人权益
+          - 损害
+          - 因果关系
+          - 违法性
+          - 故意或过失
+      - id: others
+        label: 其他请求权
+        required: false
+        elements:
+          - 相邻关系上请求权
+          - 共有物分割请求权
+          - 亲属与继承上请求权

@@ -1,0 +1,66 @@
+system: two-tier
+label: 二阶层体系（不法—责任）
+domain: criminal
+default: false
+version: 1
+
+description: >
+  张明楷教授主张的体系：将犯罪成立简化为客观不法层与主观责任层。内部构造为
+  构成要件符合性 → 违法阻却事由 → 积极的责任要素 → 消极的责任要素。
+
+source: |
+  张明楷《刑法学》：「以违法与责任为支柱构建犯罪论体系」。二阶层即客观不法层
+  （客观构成要件 + 客观违法阻却事由）与主观责任层（主观构成要件 + 责任阻却事由）。
+  法考定位：阶层论在法考中作辅助理解，定罪结论应与四要件一致。
+
+subsumption:
+  label: 涵摄四步法
+  steps:
+    - 总起句（设问）
+    - 定义
+    - 归入（涵摄）
+    - 结论
+
+stages:
+  - id: unrecht
+    label: 客观不法层
+    order: 1
+    nature: 先客观判断
+    checks:
+      - id: objective_tatbestand
+        label: 客观构成要件符合性
+        required: true
+        elements:
+          - 行为主体
+          - 实行行为
+          - 行为对象
+          - 危害结果
+          - 因果关系与客观归责
+      - id: objective_justification
+        label: 客观违法阻却事由
+        required: true
+        elements:
+          - 正当防卫
+          - 紧急避险
+          - 被害人承诺
+          - 法令行为
+
+  - id: verantwortung
+    label: 主观责任层
+    order: 2
+    nature: 后主观判断
+    checks:
+      - id: positive_responsibility
+        label: 积极的责任要素
+        required: true
+        elements:
+          - 故意
+          - 过失
+          - 目的与倾向
+      - id: negative_responsibility
+        label: 消极的责任要素（责任阻却事由）
+        required: true
+        elements:
+          - 责任能力
+          - 违法性认识可能性
+          - 期待可能性

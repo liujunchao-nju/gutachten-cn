@@ -1,0 +1,86 @@
+system: three-tier
+label: 三阶层犯罪论体系
+domain: criminal
+default: true
+version: 1
+
+description: >
+  递进式检验：先判断行为是否符合构成要件，再消极检验违法阻却事由，最后消极检验
+  责任阻却事由。前一阶层不成立即无需进入下一阶层，逻辑上不得颠倒。
+
+source: |
+  当代三阶层犯罪论体系（德日传入），构成要件符合性同时包含客观构成要件与主观构成
+  要件（行为无价值二元论立场）。
+  法考口径提示：司法部马工程教材（2025 年 5 月明确）载明，法考以四要件为基础，允许
+  运用阶层论的思维方式辅助分析，即「定罪结论应与四要件一致，分析过程可先判断客观
+  （不法），再判断主观（责任）」。本体系用于分析过程，结论建议再经 four-element 校验。
+
+subsumption:
+  label: 涵摄四步法
+  steps:
+    - 总起句（设问）：就待检验的构成要件要素提出明确命题
+    - 定义：阐明该要素的法律定义与判断标准
+    - 归入（涵摄）：将本案事实逐项与定义比对
+    - 结论：明确该要素成立或不成立，并交代不成立的后果
+
+stages:
+  - id: tatbestand
+    label: 构成要件该当性
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: objective_elements
+        label: 客观构成要件
+        required: true
+        elements:
+          - 行为主体
+          - 实行行为
+          - 行为对象
+          - 危害结果
+          - 因果关系与客观归责
+      - id: subjective_elements
+        label: 主观构成要件
+        required: true
+        elements:
+          - 故意（认识因素、意志因素）
+          - 过失（注意义务违反、结果预见可能性）
+          - 特定主观要素（目的犯之目的、倾向犯之倾向）
+
+  - id: rechtswidrigkeit
+    label: 违法性
+    order: 2
+    nature: 消极检验
+    checks:
+      - id: grounds_of_justification
+        label: 违法阻却事由
+        required: true
+        elements:
+          - 正当防卫
+          - 紧急避险
+          - 被害人承诺
+          - 法令行为与正当业务行为
+          - 自救行为
+
+  - id: schuld
+    label: 有责性
+    order: 3
+    nature: 消极检验
+    checks:
+      - id: capacity
+        label: 责任能力
+        required: true
+        elements:
+          - 刑事责任年龄
+          - 辨认能力与控制能力
+      - id: culpability
+        label: 罪过形式
+        required: true
+        elements:
+          - 故意
+          - 过失
+      - id: awareness_of_illegality
+        label: 违法性认识可能性
+        required: false
+      - id: expectability
+        label: 期待可能性
+        required: false
