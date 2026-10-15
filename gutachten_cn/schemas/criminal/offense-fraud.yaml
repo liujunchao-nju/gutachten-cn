@@ -1,0 +1,139 @@
+system: offense-fraud
+label: 诈骗罪检视程式
+domain: criminal
+default: false
+version: 1
+
+description: >
+  针对诈骗罪（《刑法》第 266 条）的专门检视程式。诈骗罪是典型的交互型犯罪，
+  其客观构成要件是一条环环相扣的因果链：欺骗行为 → 认识错误 → 处分财产 →
+  财物取得，任一环节断裂即不成立。本程式将链条逐环拆解，并突出盗骗区分。
+
+source: |
+  《中华人民共和国刑法》第 266 条。
+  最高人民法院、最高人民检察院《关于办理诈骗刑事案件具体应用法律若干问题的解释》
+  （法释〔2011〕7 号）：诈骗公私财物价值三千元至一万元以上为数额较大，
+  三万元至十万元以上为数额巨大，五十万元以上为数额特别巨大。
+  盗骗区分标准：最高人民法院指导案例 27 号（臧进泉等盗窃、诈骗案）——欺骗他人
+  点击付款链接、使他人基于认识错误处分财产的，定诈骗罪；诱骗点击虚假链接而实际
+  通过预先植入的程序秘密窃取财物的，定盗窃罪。
+
+subsumption:
+  label: 涵摄四步法
+  steps:
+    - 总起句（设问）：就待检验的构成要件要素提出明确命题
+    - 定义：阐明该要素的法律定义与判断标准
+    - 归入（涵摄）：将本案事实逐项与定义比对
+    - 结论：明确该要素成立或不成立，并交代不成立的后果
+
+stages:
+  - id: tatbestand
+    label: 构成要件该当性
+    order: 1
+    nature: 积极检验（因果链逐环检验）
+    checks:
+      - id: deception
+        label: 欺骗行为
+        required: true
+        aliases: [虚构事实, 隐瞒真相]
+        elements:
+          - 虚构事实或者隐瞒真相，使对方陷入认识错误
+          - 欺骗行为须针对处分财产者的判断过程
+      - id: error
+        label: 对方陷入认识错误
+        required: true
+        aliases: [认识错误]
+        elements:
+          - 处分人因欺骗行为对事实产生错误认识
+          - 认识错误与欺骗行为之间有因果关系
+      - id: disposition
+        label: 处分财产
+        required: true
+        aliases: [处分行为, 交付财产]
+        elements:
+          - 处分意识：处分人认识到自己将财产转移给行为人
+          - 处分行为：处分人实施了交付、转让或放弃占有等处分动作
+          - 处分权限：处分人系财物占有人或者有权处分人（否则可能是三角诈骗或盗窃）
+      - id: acquisition
+        label: 财物取得与财产损害
+        required: true
+        aliases: [财产损害]
+        elements:
+          - 行为人或者第三人取得财物
+          - 处分人遭受财产损害（整体财产减少）
+      - id: causation
+        label: 因果关系
+        required: true
+        elements:
+          - 财物取得由认识错误与处分行为直接导致
+          - 不存在异常的介入因素中断因果链
+      - id: subjective_elements
+        label: 主观构成要件
+        required: true
+        aliases: [主观要件]
+        elements:
+          - 诈骗故意：明知自己的欺骗行为会使他人陷入错误并处分财产，追求该结果
+          - 非法占有目的：无对价地永久取得他人财产的意思
+
+  - id: rechtswidrigkeit
+    label: 违法性
+    order: 2
+    nature: 消极检验
+    checks:
+      - id: grounds_of_justification
+        label: 违法阻却事由
+        required: true
+        aliases: [正当化事由]
+        elements:
+          - 正当防卫
+          - 紧急避险
+          - 被害人承诺（对财产的处分承诺）
+          - 正当业务行为
+
+  - id: schuld
+    label: 有责性
+    order: 3
+    nature: 消极检验
+    checks:
+      - id: capacity
+        label: 责任能力
+        required: true
+        aliases: [刑事责任能力]
+        elements:
+          - 刑事责任年龄
+          - 辨认能力与控制能力
+      - id: culpability
+        label: 罪过形式
+        required: true
+        aliases: [罪过]
+        elements:
+          - 故意（直接故意为典型）
+
+  - id: special_issues
+    label: 数额、竞合与边界
+    order: 4
+    nature: 定罪量刑的特别检视
+    checks:
+      - id: amount
+        label: 数额档位
+        required: true
+        aliases: [数额较大, 数额巨大]
+        elements:
+          - 数额较大：三千元至一万元起点（法释〔2011〕7 号）
+          - 数额巨大：三万元至十万元起点
+          - 数额特别巨大：五十万元起点
+      - id: attempt
+        label: 未遂
+        required: false
+        aliases: [犯罪形态]
+        elements:
+          - 已着手实施欺骗行为
+          - 因意志以外原因未取得财物或者未造成财产损害
+      - id: fraud_theft_line
+        label: 诈骗区分
+        required: false
+        aliases: [诈骗与盗窃的界限]
+        elements:
+          - 关键在被害人是否具有处分行为与处分意识
+          - 无处分行为、财物系被秘密取走的，退向盗窃罪
+          - 参照最高人民法院指导案例 27 号的裁判要点

@@ -1,0 +1,123 @@
+system: offense-misappropriation
+label: 侵占罪检视程式
+domain: criminal
+default: false
+version: 1
+
+description: >
+  针对侵占罪（《刑法》第 270 条）的专门检视程式。侵占罪是「变合法占有为
+  非法所有」的犯罪：行为人先已合法占有财物，后产生非法占有目的并拒不退还。
+  与盗窃罪的分界在于行为时财物是否已在行为人占有之下，这是本程式最核心的
+  检视点。
+
+source: |
+  《中华人民共和国刑法》第 270 条：「将代为保管的他人财物非法占为己有，
+  数额较大，拒不退还的，处二年以下有期徒刑、拘役或者罚金；数额巨大或者有
+  其他严重情节的，处二年以上五年以下有期徒刑，并处罚金。将他人的遗忘物或者
+  埋藏物非法占为己有，数额较大，拒不交出的，依照前款的规定处罚。本条罪，
+  告诉的才处理。」
+
+subsumption:
+  label: 涵摄四步法
+  steps:
+    - 总起句（设问）：就待检验的构成要件要素提出明确命题
+    - 定义：阐明该要素的法律定义与判断标准
+    - 归入（涵摄）：将本案事实逐项与定义比对
+    - 结论：明确该要素成立或不成立，并交代不成立的后果
+
+stages:
+  - id: tatbestand
+    label: 构成要件该当性
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: object
+        label: 行为对象
+        required: true
+        aliases: [代为保管的他人财物, 遗忘物, 埋藏物]
+        elements:
+          - 代为保管的他人财物：基于委托、租赁、借用、运输、寄存等合法原因占有
+          - 遗忘物：因遗忘而脱离占有之物（区别于仍属他人占有的遗失物）
+          - 埋藏物：长期埋藏于地下或他物之中、所有人不明或应归国家所有的财物
+      - id: possession_status
+        label: 占有状态的前提判断
+        required: true
+        aliases: [已然占有, 占有归属]
+        elements:
+          - 行为时财物已在行为人占有之下（变占有为所有的前提）
+          - 若财物仍在权利人占有之下，行为属打破占有，退向盗窃罪而非侵占
+      - id: act
+        label: 非法占为己有与拒不退还
+        required: true
+        aliases: [拒不退还, 拒不交出]
+        elements:
+          - 非法占为己有：处分、使用、收益或者隐匿财物，表现出权利人不对待的所有人意思
+          - 拒不退还或拒不交出：经权利人请求后在合理期限内明确拒绝
+          - 数额较大
+      - id: subjective_elements
+        label: 主观构成要件
+        required: true
+        aliases: [主观要件]
+        elements:
+          - 故意：明知财物系他人所有或者遗忘物、埋藏物
+          - 非法占有目的：产生于合法占有之后（事后产生），区别于盗窃罪的取财时即有
+
+  - id: rechtswidrigkeit
+    label: 违法性
+    order: 2
+    nature: 消极检验
+    checks:
+      - id: grounds_of_justification
+        label: 违法阻却事由
+        required: true
+        aliases: [正当化事由]
+        elements:
+          - 对财物享有留置权、抵销权等实体抗辩
+          - 权利人对返还请求本身不成立（如费用偿还争议）
+
+  - id: schuld
+    label: 有责性
+    order: 3
+    nature: 消极检验
+    checks:
+      - id: capacity
+        label: 责任能力
+        required: true
+        aliases: [刑事责任能力]
+        elements:
+          - 刑事责任年龄
+          - 辨认能力与控制能力
+      - id: culpability
+        label: 罪过形式
+        required: true
+        aliases: [罪过]
+        elements:
+          - 故意
+
+  - id: special_issues
+    label: 边界与程序
+    order: 4
+    nature: 特别检视
+    checks:
+      - id: misappropriation_theft_line
+        label: 与盗窃罪的分界
+        required: true
+        aliases: [侵占与盗窃的界限]
+        elements:
+          - 关键：行为时财物是否已在行为人占有之下
+          - 受委托保管期间窃取自己保管之物，通说成立侵占而非盗窃
+          - 受委托运输中占有封缄物整体但内容物仍属托运人占有的，取走内容物可成立盗窃
+      - id: duty_crime_line
+        label: 与职务侵占罪的分界
+        required: false
+        aliases: [职务侵占]
+        elements:
+          - 是否利用职务上的便利（第 271 条）
+          - 主体是否为公司、企业或者其他单位的人员
+      - id: procedure
+        label: 告诉才处理
+        required: true
+        aliases: [亲告罪]
+        elements:
+          - 第 270 条第三款：本条罪告诉的才处理
+          - 无告诉或者告诉欠缺法定形式，不得追究刑事责任

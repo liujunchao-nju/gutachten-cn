@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
-from .check import check_report, required_checks
+from .check import check_report, format_result, format_result_md, required_checks
+from .practice import render_practice, render_practice_html
 from .render import render_outline
 from .schemas import default_system, list_systems, load_system, ordered_stages
 
-__version__ = "0.1.0"
+__version__ = "0.3.0"
 
 __all__ = [
     "list_systems",
@@ -16,5 +17,9 @@ __all__ = [
     "render_outline",
     "check_report",
     "required_checks",
+    "format_result",
+    "format_result_md",
+    "render_practice",
+    "render_practice_html",
     "__version__",
 ]

@@ -1,0 +1,144 @@
+system: tort-claim
+label: 侵权行为损害赔偿请求权检视程式
+domain: civil
+default: false
+version: 1
+
+description: >
+  针对「侵权行为损害赔偿请求权」的专门检视程式，是请求权基础七步检索的
+  第六步（通常在契约、物权等在先请求权均不成立后检索）。一般侵权采过错责任，
+  六要件逐一检验；特殊侵权另有归责原则与免责事由的变体。
+
+source: |
+  《中华人民共和国民法典》侵权责任编（第七编）：第 1165-1188 条等。
+  一般侵权：第 1165 条第一款（过错责任）；第 1165 条第二款（过错推定）。
+  减责与免责：第 1173-1177 条（与有过失、受害人故意、第三人原因、自甘风险、
+  自助行为）。精神损害赔偿：第 1183 条。机动车交通事故：第 1208 条并
+  《道路交通安全法》第 76 条。
+  受害人特殊体质不减轻侵权人责任：最高人民法院指导案例 24 号
+  （荣宝英诉王阳、永诚财产保险股份有限公司江阴支公司机动车交通事故责任
+  纠纷案）裁判要点——交通事故的受害人没有过错的，其体质状况对损害后果的
+  影响不属于可以减轻侵权人责任的法定情形。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: elements
+    label: 一般侵权六要件
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: tortious_act
+        label: 加害行为
+        required: true
+        aliases: [侵权行为]
+        elements:
+          - 作为或者不作为（不作为须有作为义务与作为可能）
+      - id: infringement
+        label: 权益侵害
+        required: true
+        aliases: [民事权益]
+        elements:
+          - 侵害民事权益：生命权、身体权、健康权、姓名权、名誉权、所有权等绝对权
+          - 纯粹经济损失原则上不适用一般侵权（须有法律特别规定）
+      - id: damage
+        label: 损害
+        required: true
+        aliases: [损害事实]
+        elements:
+          - 财产损害：现有财产的减少或者应增加而未增加
+          - 人身损害：医疗费、护理费、误工费、残疾赔偿金、死亡赔偿金等
+          - 精神损害：严重精神痛苦的赔偿依据（第 1183 条）
+      - id: causation
+        label: 因果关系
+        required: true
+        aliases: [相当因果关系]
+        elements:
+          - 加害行为是损害发生的相当原因（依通常情形显著提高损害发生可能）
+          - 法规目的说：损害须落在规范保护目的范围内
+          - 受害人特殊体质仅是损害表现的客观因素，不中断因果关系（指导案例 24 号）
+      - id: fault
+        label: 过错
+        required: true
+        aliases: [故意或过失]
+        elements:
+          - 故意：追求或者放任损害结果
+          - 过失：未尽合理注意义务（违反交易上必要注意）
+          - 过错推定情形由法律明文规定（第 1165 条第二款）
+      - id: wrongfulness
+        label: 违法性
+        required: true
+        aliases: [行为不法]
+        elements:
+          - 结果不法说：侵害绝对权即推定违法
+          - 违法阻却：正当防卫、紧急避险、自助行为、受害人同意等
+
+  - id: defenses
+    label: 抗辩与减责
+    order: 2
+    nature: 消极检验
+    checks:
+      - id: fault_offset
+        label: 与有过失
+        required: true
+        aliases: [过失相抵, 受害人过错]
+        elements:
+          - 被侵权人对同一损害的发生或者扩大有过错，减轻侵权人责任（第 1173 条）
+          - 过错指主观故意或者过失；受害人特殊体质不属于过错（指导案例 24 号）
+      - id: victim_fault
+        label: 受害人故意或第三人原因
+        required: true
+        aliases: [免责事由]
+        elements:
+          - 损害因受害人故意造成，侵权人不承担责任（第 1174 条）
+          - 损害因第三人造成，由第三人承担侵权责任（第 1175 条）
+      - id: assumption_of_risk
+        label: 自甘风险与自助行为
+        required: false
+        aliases: [风险自负]
+        elements:
+          - 自愿参加具有一定风险的文体活动（第 1176 条）
+          - 自助行为的要件与限度（第 1177 条）
+
+  - id: special_liability
+    label: 特殊侵权责任
+    order: 3
+    nature: 归责原则变体
+    checks:
+      - id: traffic_accident
+        label: 机动车交通事故责任
+        required: false
+        aliases: [交通事故责任]
+        elements:
+          - 交强险优先赔付：保险公司在责任限额范围内先行赔偿（《道路交通安全法》第 76 条）
+          - 不足部分按过错分担；机动车与行人事故中行人无过错时由机动车方全赔
+          - 损伤参与度不得作为扣减交强险责任与侵权责任的依据（指导案例 24 号）
+      - id: vicarious_liability
+        label: 替代责任
+        required: false
+        aliases: [替代责任]
+        elements:
+          - 用人单位责任（第 1191 条）
+          - 监护人责任（第 1188 条）
+          - 网络服务提供者责任（第 1195-1197 条）
+
+  - id: remedies
+    label: 损害赔偿范围
+    order: 4
+    nature: 法律效果
+    checks:
+      - id: compensation_scope
+        label: 赔偿范围
+        required: true
+        aliases: [损害赔偿范围]
+        elements:
+          - 人身损害赔偿：医疗费、护理费、交通费、营养费、住院伙食补助、误工费
+          - 残疾赔偿金与死亡赔偿金
+          - 精神损害赔偿（第 1183 条）
+          - 财产损失：按损失发生时市场价格或者其他合理方式计算（第 1184 条）

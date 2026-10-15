@@ -32,6 +32,7 @@ stages:
       - id: objective_elements
         label: 客观构成要件
         required: true
+        aliases: [客观要件]
         elements:
           - 行为主体
           - 实行行为
@@ -41,6 +42,7 @@ stages:
       - id: subjective_elements
         label: 主观构成要件
         required: true
+        aliases: [主观要件]
         elements:
           - 故意（认识因素、意志因素）
           - 过失（注意义务违反、结果预见可能性）
@@ -54,6 +56,7 @@ stages:
       - id: grounds_of_justification
         label: 违法阻却事由
         required: true
+        aliases: [正当化事由, 违法排除事由]
         elements:
           - 正当防卫
           - 紧急避险
@@ -69,12 +72,14 @@ stages:
       - id: capacity
         label: 责任能力
         required: true
+        aliases: [刑事责任能力]
         elements:
           - 刑事责任年龄
           - 辨认能力与控制能力
       - id: culpability
         label: 罪过形式
         required: true
+        aliases: [罪过]
         elements:
           - 故意
           - 过失

@@ -1,0 +1,94 @@
+system: property-claim
+label: 物权关系上请求权检视程式
+domain: civil
+default: false
+version: 1
+
+description: >
+  针对「物权关系上请求权」的专门检视程式，是请求权基础七步检索的第四步。
+  物权请求权的行使不以相对人过错为要件，也不适用诉讼时效（通说），
+  其前提是请求权人享有物权且相对人构成无权占有或者妨害。
+
+source: |
+  《中华人民共和国民法典》物权编（第二编）：第 234-238 条、第 462 条。
+  物权确认请求权：第 234 条；返还原物请求权：第 235 条；
+  排除妨害与消除危险请求权：第 236 条；损害赔偿请求权：第 238 条。
+  占有保护请求权：第 462 条（占有返还请求权自侵占发生之日起一年内未行使的，
+  该请求权消灭）。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: preconditions
+    label: 前提检视
+    order: 1
+    nature: 请求权的基底
+    checks:
+      - id: real_right_confirmation
+        label: 物权确认
+        required: true
+        aliases: [物权归属确认]
+        elements:
+          - 请求权人享有物权：所有权、用益物权或者担保物权
+          - 因物权归属发生争议的，先行确认（第 234 条）
+      - id: unauthorized_possession
+        label: 无权占有或者妨害
+        required: true
+        aliases: [无权占有, 妨害状态]
+        elements:
+          - 相对人无占有的本权（无契约、无法定占有权源）
+          - 占有状态持续存在，或者妨害、危险现实存在
+
+  - id: claims
+    label: 各项物权请求权
+    order: 2
+    nature: 逐项检索
+    checks:
+      - id: return_of_property
+        label: 所有物返还请求权
+        required: true
+        aliases: [返还原物]
+        elements:
+          - 现时无权占有不动产或者动产（第 235 条）
+          - 不适用诉讼时效（通说：物权请求权不受时效限制）
+      - id: removal_of_obstruction
+        label: 排除妨害请求权
+        required: true
+        aliases: [排除妨害]
+        elements:
+          - 妨害物权行使的状态现实存在（第 236 条）
+          - 妨害超出忍受限度，且无违法阻却事由
+      - id: elimination_of_danger
+        label: 消除危险请求权
+        required: true
+        aliases: [消除危险]
+        elements:
+          - 危险具有现实性而非单纯可能（第 236 条）
+          - 危险将妨害物权的圆满支配
+
+  - id: related_claims
+    label: 相关请求权
+    order: 3
+    nature: 辅助检索
+    checks:
+      - id: restoration
+        label: 恢复原状与损害赔偿
+        required: false
+        aliases: [恢复原状]
+        elements:
+          - 不动产或者动产毁损的，请求修理、重作、更换或者恢复原状（第 237 条）
+          - 不能恢复或者不足以弥补的，请求损害赔偿（第 238 条）
+      - id: possession_protection
+        label: 占有保护请求权
+        required: false
+        aliases: [占有返还请求权]
+        elements:
+          - 占有的不动产或者动产被侵占的，占有人有权请求返还原物（第 462 条第一款）
+          - 排除妨害与消除危险的占有保护（第 462 条第二款）
+          - 除斥期间：占有返还请求权自侵占发生之日起一年内行使

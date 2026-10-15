@@ -33,6 +33,7 @@ stages:
       - id: attempt_elements
         label: 未遂三要素
         required: true
+        aliases: [未遂三要件, 着手]
         elements:
           - 犯罪决意：完成罪的全部主观要素，对客观构成要件要素有认识与意志
           - 着手实行：主观上认为已开始实现构成要件，客观上已直接危及法益
@@ -56,6 +57,7 @@ stages:
       - id: complicity_elements
         label: 共犯成立要件
         required: true
+        aliases: [共犯要件]
         elements:
           - 正犯的不法行为（至少达构成要件符合＋违法）
           - 共犯行为：教唆犯引起正犯犯意／帮助犯提供物质或精神便利
@@ -78,6 +80,7 @@ stages:
       - id: omission_elements
         label: 客观构成要件
         required: true
+        aliases: [不作为的客观构成要件]
         elements:
           - 构成要件结果的发生
           - 不作为
@@ -101,6 +104,7 @@ stages:
       - id: negligence_objective
         label: 客观构成要件
         required: true
+        aliases: [过失犯的客观构成要件]
         elements:
           - 客观注意义务违反
           - 客观可预见性

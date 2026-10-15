@@ -30,6 +30,7 @@ stages:
       - id: objective_tatbestand
         label: 客观构成要件符合性
         required: true
+        aliases: [客观构成要件]
         elements:
           - 行为主体
           - 实行行为
@@ -39,6 +40,7 @@ stages:
       - id: objective_justification
         label: 客观违法阻却事由
         required: true
+        aliases: [正当化事由]
         elements:
           - 正当防卫
           - 紧急避险
@@ -60,6 +62,7 @@ stages:
       - id: negative_responsibility
         label: 消极的责任要素（责任阻却事由）
         required: true
+        aliases: [责任阻却事由]
         elements:
           - 责任能力
           - 违法性认识可能性

@@ -25,6 +25,7 @@ stages:
       - id: behavior_standard
         label: 行为标准与六条划分规则
         required: true
+        aliases: [事实单元划分标准]
         elements:
           - R1　一行为一结果＝一单元
           - R2　预备行为不独立成单元，与实行行为归入同一单元
@@ -35,6 +36,7 @@ stages:
       - id: neutral_label
         label: 中性标签命名（不得预设法律评价）
         required: true
+        aliases: [中性标签]
         elements:
           - 使用客观描述，避免以罪名或法律结论作标签
           - 正确：甲对乙的殴打行为；错误：甲的故意伤害行为
@@ -49,6 +51,7 @@ stages:
       - id: all_participants
         label: 全面列举每一单元的参与人
         required: true
+        aliases: [参与人列举]
         elements:
           - 直接实施者
           - 间接利用者
@@ -58,6 +61,7 @@ stages:
       - id: proximity_order
         label: 分析顺序（越接近法益侵害结果者越优先）
         required: true
+        aliases: [分析顺序]
         elements:
           - 直接正犯
           - 间接正犯
@@ -73,6 +77,7 @@ stages:
       - id: tier_examination
         label: 每一罪名依三阶层检验
         required: true
+        aliases: [三阶层检验]
         elements:
           - 构成要件该当性
           - 违法性
@@ -80,6 +85,7 @@ stages:
       - id: charge_search_order
         label: 罪名检索顺序
         required: true
+        aliases: [罪名检索]
         elements:
           - 先正犯后共犯
           - 先既遂后未遂
@@ -105,6 +111,7 @@ stages:
       - id: concurrence_types
         label: 竞合类型判断
         required: true
+        aliases: [竞合类型]
         elements:
           - 想象竞合：一行为触犯数罪名，从一重处断
           - 法条竞合：特别关系／补充关系／吸收关系／择一关系
@@ -114,6 +121,7 @@ stages:
       - id: concurrence_procedure
         label: 判断流程
         required: true
+        aliases: [竞合判断流程]
         elements:
           - 确认本单元内成立几个罪名
           - 判断行为个数（自然行为单数或复数）
@@ -128,6 +136,7 @@ stages:
       - id: conclusion_elements
         label: 每罪必须包含的六要素
         required: true
+        aliases: [全案结论六要素]
         elements:
           - 参与形态（直接正犯／间接正犯／共同正犯／教唆犯／帮助犯）
           - 犯罪形态（既遂／未遂／中止／预备）

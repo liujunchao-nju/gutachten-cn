@@ -1,0 +1,131 @@
+system: contract-claim
+label: 契约上请求权检视程式
+domain: civil
+default: false
+version: 1
+
+description: >
+  针对「契约上请求权」的专门检视程式，是请求权基础七步检索的第一步。
+  路径：契约成立与生效 → 给付义务内容 → 债务不履行形态 → 违约责任与解除。
+  顺序意义：契约关系成立时，往往排除类似契约、无因管理、不当得利等后续
+  请求权，故必须首先检索。
+
+source: |
+  《中华人民共和国民法典》合同编（第三编）通则部分：第 465 条至第 590 条。
+  要约承诺：第 471-483 条；效力瑕疵：第 143、153、154、497 条；
+  违约责任：第 577、584、585、586 条；法定解除：第 563 条；解除程序：第 565 条。
+  惩罚性赔偿的特别规定：《消费者权益保护法》第 55 条；
+  《食品安全法》第 148 条第二款。参照最高人民法院指导案例 23 号
+  （孙银山诉南京欧尚超市有限公司江宁店买卖合同纠纷案）。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: formation
+    label: 契约成立与生效
+    order: 1
+    nature: 前提检视
+    checks:
+      - id: offer_acceptance
+        label: 要约与承诺
+        required: true
+        aliases: [合同成立]
+        elements:
+          - 要约：内容具体确定，表明经受要约人承诺即受约束
+          - 承诺：受要约人同意要约的意思表示，在期限内到达要约人
+          - 成立时点：承诺生效时合同成立（第 483 条）
+      - id: capacity
+        label: 当事人行为能力
+        required: true
+        aliases: [行为能力]
+        elements:
+          - 完全民事行为能力人；或者限制行为能力人实施与其年龄、智力相适应的民事法律行为
+          - 无权代理时检验是否构成表见代理（第 172 条）
+      - id: validity_defects
+        label: 效力瑕疵
+        required: true
+        aliases: [无效情形, 可撤销情形]
+        elements:
+          - 违反法律、行政法规的强制性规定或者违背公序良俗（第 153 条）
+          - 恶意串通损害他人合法权益（第 154 条）
+          - 重大误解、欺诈、胁迫、显失公平（第 147-151 条，可撤销）
+          - 格式条款的无效情形（第 497 条）
+          - 批准、登记等特别生效要件（第 502 条）
+
+  - id: obligation
+    label: 给付义务内容
+    order: 2
+    nature: 确定请求权的具体内容
+    checks:
+      - id: main_obligation
+        label: 主给付义务
+        required: true
+        aliases: [给付义务]
+        elements:
+          - 依据契约性质与约定确定义务内容（交付、付款、完成工作等）
+          - 约定不明时按合同相关条款、交易习惯补充确定（第 510、511 条）
+      - id: collateral_obligations
+        label: 从给付义务与附随义务
+        required: false
+        aliases: [附随义务]
+        elements:
+          - 通知、协助、保密、照顾、保护等附随义务（第 509 条第二款）
+
+  - id: breach
+    label: 债务不履行
+    order: 3
+    nature: 归责事由与形态
+    checks:
+      - id: breach_forms
+        label: 不履行形态
+        required: true
+        aliases: [违约形态]
+        elements:
+          - 履行迟延：期限届满仍不履行，经催告后合理期限内仍未履行
+          - 拒绝履行：明示或者默示不履行
+          - 不完全履行：质量、数量、方式不符合约定
+          - 履行不能：法律上或者事实上不能履行
+      - id: liability_grounds
+        label: 归责与抗辩
+        required: true
+        aliases: [违约责任构成, 不可抗力]
+        elements:
+          - 严格责任：不履行即担责，不问过错（第 577 条）
+          - 不可抗力全部或者部分免责（第 590 条）
+          - 债权人过错、与有过失的减责
+
+  - id: remedies
+    label: 违约责任与解除
+    order: 4
+    nature: 法律效果
+    checks:
+      - id: remedies_forms
+        label: 责任形式
+        required: true
+        aliases: [违约救济]
+        elements:
+          - 继续履行或者采取补救措施（第 577、582 条）
+          - 赔偿损失：相当于违约造成的损失，含可得利益，受可预见规则限制（第 584 条）
+          - 违约金：约定违约金及其司法调整（第 585 条）
+          - 定金：定金罚则与违约金择一适用（第 586-588 条）
+      - id: termination
+        label: 解除权
+        required: false
+        aliases: [合同解除]
+        elements:
+          - 法定解除情形（第 563 条：不可抗力致目的不达、迟延经催告、根本违约）
+          - 解除程序与异议（第 565 条）
+      - id: statutory_penalty
+        label: 法定惩罚性赔偿
+        required: false
+        aliases: [十倍赔偿, 惩罚性赔偿]
+        elements:
+          - 《食品安全法》第 148 条第二款：不符合安全标准食品的价款十倍或者损失三倍赔偿
+          - 《消费者权益保护法》第 55 条：欺诈行为的价款三倍赔偿（最低五百元）
+          - 惩罚性赔偿不以消费者明知为阻却事由（指导案例 23 号裁判要点）

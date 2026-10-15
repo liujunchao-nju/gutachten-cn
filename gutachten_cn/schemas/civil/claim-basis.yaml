@@ -34,6 +34,7 @@ stages:
       - id: contract
         label: 契约上请求权
         required: true
+        aliases: [合同上请求权, 契约请求权]
         elements:
           - 契约成立与生效
           - 给付义务内容
@@ -41,6 +42,7 @@ stages:
       - id: quasi_contract
         label: 无权代理等类似契约关系上请求权
         required: true
+        aliases: [类似契约关系上请求权, 缔约过失责任]
         elements:
           - 无权代理
           - 缔约过失
@@ -48,6 +50,7 @@ stages:
       - id: negotiorum_gestio
         label: 无因管理上请求权
         required: true
+        aliases: [无因管理]
         elements:
           - 管理他人事务
           - 有为他人管理的意思
@@ -55,6 +58,7 @@ stages:
       - id: property
         label: 物权关系上请求权
         required: true
+        aliases: [物权请求权]
         elements:
           - 所有物返还请求权
           - 排除妨害
@@ -62,6 +66,7 @@ stages:
       - id: unjust_enrichment
         label: 不当得利请求权
         required: true
+        aliases: [不当得利]
         elements:
           - 一方受有利益
           - 致他方受损害
@@ -69,6 +74,7 @@ stages:
       - id: tort
         label: 侵权行为损害赔偿请求权
         required: true
+        aliases: [侵权损害赔偿请求权, 侵权行为损害赔偿请求权]
         elements:
           - 加害行为
           - 侵害他人权益

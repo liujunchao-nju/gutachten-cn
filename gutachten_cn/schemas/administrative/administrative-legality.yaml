@@ -1,0 +1,142 @@
+system: administrative-legality
+label: 行政行为合法性审查
+domain: administrative
+default: false
+version: 1
+
+description: >
+  针对行政诉讼中行政行为合法性审查的专门检视程式。通说将审查内容整理为
+  「职权、证据、适用法律、程序、裁量」五个方面，与《行政诉讼法》第 70 条
+  列举的撤销情形对应；比例原则与正当程序是贯穿各方的实质法治国要求。
+
+source: |
+  《中华人民共和国行政诉讼法》第 70 条（2017 年修正，现行）：行政行为有
+  下列情形之一的，人民法院判决撤销或者部分撤销，并可以判决被告重新作出
+  行政行为：（一）主要证据不足的；（二）适用法律、法规错误的；（三）违反
+  法定程序的；（四）超越职权的；（五）滥用职权的；（六）明显不当的。
+  正当程序原则与上位法依据：最高人民法院指导案例 38 号（田永诉北京科技大学
+  拒绝颁发毕业证、学位证案）裁判要点——高等学校依据违背国家法律、行政法规
+  或规章的校规、校纪对受教育者作出退学处理等决定的，人民法院不予支持；
+  作出影响基本权利的决定时应当允许申辩并及时送达，否则视为违反法定程序。
+
+subsumption:
+  label: 合法性审查五步
+  steps:
+    - 受案范围与原告资格：是否属于行政诉讼受案范围，原告与被诉行为有无利害关系
+    - 被诉行为定性：识别行为类型（行政处罚、行政许可、行政确认等）与效力形态
+    - 职权依据：被告是否具有法定职权，是否超越职权
+    - 证据与法律适用：事实认定是否有主要证据支持，适用法律是否正确
+    - 程序与裁量：程序是否合法，裁量是否滥用或者明显不当
+
+stages:
+  - id: jurisdiction
+    label: 受案范围与主体
+    order: 1
+    nature: 前提检视
+    checks:
+      - id: admissible_scope
+        label: 受案范围
+        required: true
+        aliases: [可诉性]
+        elements:
+          - 被诉行为系行政行为或者公共管理争议，属于《行政诉讼法》第 12 条受案范围
+          - 法律法规授权的组织作出的行为可诉（指导案例 38 号：高等学校可作行政诉讼被告）
+      - id: standing
+        label: 原告资格
+        required: true
+        aliases: [利害关系]
+        elements:
+          - 原告是行政行为相对人或者与行为有利害关系的公民、法人或者其他组织
+          - 权利受影响且存在救济必要
+      - id: subject_and_authority
+        label: 被告职权
+        required: true
+        aliases: [职权依据, 超越职权]
+        elements:
+          - 被告具有作出被诉行为的法定职权（组织法依据与行为法依据）
+          - 未超越职权、未滥用职权（第 70 条第四、五项）
+
+  - id: evidence_and_law
+    label: 证据与法律适用
+    order: 2
+    nature: 实体审查
+    checks:
+      - id: evidence
+        label: 主要证据
+        required: true
+        aliases: [证据不足]
+        elements:
+          - 认定事实有主要证据支持，证据链完整（第 70 条第一项）
+          - 举证责任在被告；诉讼中不能证明符合法律具体规定的，视为没有依据
+      - id: application_of_law
+        label: 适用法律
+        required: true
+        aliases: [适用法律法规]
+        elements:
+          - 正确适用法律、法规、规章（第 70 条第二项）
+          - 下位规定不得抵触上位法：依据违背上位法的校规校纪作出的决定不予支持
+            （指导案例 38 号裁判要点第二项）
+      - id: facts
+        label: 事实认定
+        required: true
+        aliases: [事实根据]
+        elements:
+          - 事实认定清楚，与证据相符
+          - 关键事实（如是否存在违纪行为）的认定须有依据
+
+  - id: procedure
+    label: 程序合法性
+    order: 3
+    nature: 形式审查与正当程序
+    checks:
+      - id: statutory_procedure
+        label: 法定程序
+        required: true
+        aliases: [违反法定程序]
+        elements:
+          - 遵守法定的方式、步骤、顺序与时限（第 70 条第三项）
+          - 法定程序瑕疵影响实体公正的，构成撤销事由
+      - id: due_process
+        label: 正当程序
+        required: true
+        aliases: [申辩, 送达]
+        elements:
+          - 事先告知事实、理由与依据
+          - 听取申辩：作出影响基本权利的决定前允许当事人提出申辩意见
+          - 及时送达：决定作出后向本人宣布、送达（指导案例 38 号裁判要点第三项）
+
+  - id: discretion
+    label: 裁量与比例
+    order: 4
+    nature: 实质审查
+    checks:
+      - id: abuse_of_discretion
+        label: 滥用职权与明显不当
+        required: true
+        aliases: [明显不当]
+        elements:
+          - 裁量未滥用：目的正当，非出于恶意或者不相关考虑（第 70 条第五项）
+          - 非明显不当：结果未背离通常理性人的判断（第 70 条第六项）
+      - id: proportionality
+        label: 比例原则
+        required: true
+        aliases: [比例原则]
+        elements:
+          - 适当性：手段有助于目的实现
+          - 必要性：在同样有效的手段中选择对当事人权益侵害最小的
+          - 衡量性：手段造成的损害与所追求的目的成比例（过罚相当）
+
+  - id: disposition
+    label: 裁判方式
+    order: 5
+    nature: 结论层
+    checks:
+      - id: judgment_options
+        label: 判决与履行
+        required: true
+        aliases: [裁判方式]
+        elements:
+          - 撤销或者部分撤销，并可以判决重新作出行政行为（第 70 条）
+          - 履行判决：被告不履行法定职责的，判决限期履行（第 72 条）
+          - 给付判决与确认违法、确认无效的适用情形
+          - 责令重作时的程序性约束（不得以同一事实理由作出基本相同的行为）

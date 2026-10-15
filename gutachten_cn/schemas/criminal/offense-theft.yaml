@@ -1,0 +1,126 @@
+system: offense-theft
+label: 盗窃罪检视程式
+domain: criminal
+default: false
+version: 1
+
+description: >
+  针对盗窃罪（《刑法》第 264 条）的专门检视程式。与三阶层通用程式的分工：
+  三阶层规定检验的层次结构，本程式规定「构成要件该当性」一层内部该罪特有的
+  要件拆解（平和手段、非法占有目的、数额与情节），并列明该罪的高频争点。
+
+source: |
+  《中华人民共和国刑法》第 264 条。
+  最高人民法院、最高人民检察院《关于办理盗窃刑事案件适用法律若干问题的解释》
+  （法释〔2013〕8 号）：数额较大为一千元至三千元起点，数额巨大为三万元至十万元
+  起点，数额特别巨大为三十万元至五十万元起点，各省可在此幅度内确定本地标准。
+  盗骗区分标准：最高人民法院指导案例 27 号（臧进泉等盗窃、诈骗案）——获取财物
+  起决定性作用的手段是秘密窃取的，定盗窃罪；欺骗他人处分财产的，定诈骗罪。
+
+subsumption:
+  label: 涵摄四步法
+  steps:
+    - 总起句（设问）：就待检验的构成要件要素提出明确命题
+    - 定义：阐明该要素的法律定义与判断标准
+    - 归入（涵摄）：将本案事实逐项与定义比对
+    - 结论：明确该要素成立或不成立，并交代不成立的后果
+
+stages:
+  - id: tatbestand
+    label: 构成要件该当性
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: objective_elements
+        label: 客观构成要件
+        required: true
+        aliases: [客观要件]
+        elements:
+          - 行为主体：自然人，已达刑事责任年龄、具有责任能力
+          - 实行行为：以平和手段打破他人对财物的占有（秘密窃取或平和转移占有，区别于抢夺、抢劫的暴力与诈骗的处分）
+          - 行为对象：他人占有的财物（含观念上占有；本人所有但他人合法占有的财物亦可成为对象）
+          - 危害结果：财物脱离权利人控制，转入行为人或者第三人实际控制
+          - 因果关系：占有转移由行为人的取财行为直接造成
+      - id: subjective_elements
+        label: 主观构成要件
+        required: true
+        aliases: [主观要件]
+        elements:
+          - 盗窃故意：认识到财物系他人占有且无权利人同意，并决意实现占有转移
+          - 非法占有目的：永久排除权利人对财物支配的意思（区别于一时使用的使用盗窃）
+          - 特定目的：无额外目的犯要求
+
+  - id: rechtswidrigkeit
+    label: 违法性
+    order: 2
+    nature: 消极检验
+    checks:
+      - id: grounds_of_justification
+        label: 违法阻却事由
+        required: true
+        aliases: [正当化事由, 违法排除事由]
+        elements:
+          - 正当防卫
+          - 紧急避险
+          - 被害人承诺
+          - 自救行为
+          - 法令行为与正当业务行为
+
+  - id: schuld
+    label: 有责性
+    order: 3
+    nature: 消极检验
+    checks:
+      - id: capacity
+        label: 责任能力
+        required: true
+        aliases: [刑事责任能力]
+        elements:
+          - 刑事责任年龄
+          - 辨认能力与控制能力
+      - id: culpability
+        label: 罪过形式
+        required: true
+        aliases: [罪过]
+        elements:
+          - 故意（直接故意为典型，间接故意亦可）
+
+  - id: special_issues
+    label: 数额、情节与形态
+    order: 4
+    nature: 定罪量刑的特别检视
+    checks:
+      - id: statutory_circumstances
+        label: 第 264 条法定情形
+        required: true
+        aliases: [入户盗窃等法定情形]
+        elements:
+          - 入户盗窃：非法进入供他人家庭生活、与外界相对隔离的住所实施盗窃
+          - 携带凶器盗窃
+          - 扒窃：在公共场所或公共交通工具上窃取他人随身携带的财物
+          - 多次盗窃：二年内盗窃三次以上
+      - id: amount
+        label: 数额档位
+        required: true
+        aliases: [数额较大, 数额巨大]
+        elements:
+          - 数额较大：一千元至三千元起点（法释〔2013〕8 号）
+          - 数额巨大：三万元至十万元起点
+          - 数额特别巨大：三十万元至五十万元起点
+          - 数额以行为时的财物价值计算，销赃数额可作为参考
+      - id: attempt
+        label: 未遂与中止
+        required: false
+        aliases: [犯罪形态]
+        elements:
+          - 已着手：行为已直接逼近财物、对占有形成现实紧迫危险
+          - 未得逞：占有转移未完成
+          - 未得逞系意志以外原因所致
+      - id: theft_fraud_line
+        label: 盗骗区分
+        required: false
+        aliases: [盗窃与诈骗的界限]
+        elements:
+          - 被害人是否有处分财产的行为与处分意识
+          - 获取财物起决定性作用的手段是秘密窃取还是欺骗处分
+          - 参照最高人民法院指导案例 27 号的裁判要点

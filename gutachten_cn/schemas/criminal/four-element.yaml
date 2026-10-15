@@ -27,11 +27,13 @@ stages:
       - id: object
         label: 犯罪客体
         required: true
+        aliases: [客体]
         elements:
           - 刑法所保护而被侵害的社会关系（法益）
       - id: objective_aspect
         label: 犯罪客观方面
         required: true
+        aliases: [客观方面]
         elements:
           - 危害行为
           - 危害结果
@@ -40,6 +42,7 @@ stages:
       - id: subject
         label: 犯罪主体
         required: true
+        aliases: [主体]
         elements:
           - 自然人或单位
           - 刑事责任年龄
@@ -47,6 +50,7 @@ stages:
       - id: subjective_aspect
         label: 犯罪主观方面
         required: true
+        aliases: [主观方面]
         elements:
           - 故意
           - 过失

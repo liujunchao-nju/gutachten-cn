@@ -33,4 +33,7 @@ jobs:
           python -m gutachten_cn list
           python -m gutachten_cn show --system claim-basis
           python -m gutachten_cn outline --domain criminal --case examples/case_input.json | head -20
+          python -m gutachten_cn outline --system three-tier --format html --out /tmp/outline.html
+          python -m gutachten_cn practice --system three-tier --case examples/case_input.json | head -20
           python -m gutachten_cn check --system three-tier --file examples/criminal_sample.md
+          python -m gutachten_cn check --system tort-claim --file examples/tort_sample.md --format md --out /tmp/check.md

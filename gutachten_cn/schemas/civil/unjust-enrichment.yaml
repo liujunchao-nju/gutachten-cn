@@ -1,0 +1,97 @@
+system: unjust-enrichment
+label: 不当得利请求权检视程式
+domain: civil
+default: false
+version: 1
+
+description: >
+  针对「不当得利请求权」的专门检视程式，是请求权基础七步检索的第五步。
+  三要件：一方受有利益、致他方受损害、无法律上原因。其体系功能是矫正
+  欠缺权利变动基础的财产变动；只要存在契约等法律上原因，即不得成立。
+
+source: |
+  《中华人民共和国民法典》第 985-988 条。
+  第 985 条：得利人没有法律根据取得不当利益的，受损失的人可以请求得利人
+  返还取得的利益，但是有下列情形之一的除外：（一）为履行道德义务进行的给付；
+  （二）债务到期之前的清偿；（三）明知无给付义务而进行的债务清偿。
+  善意得利人的返还范围：第 986 条；恶意得利人：第 987 条。
+  第三人返还：第 988 条。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: elements
+    label: 三要件
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: benefit
+        label: 一方受有利益
+        required: true
+        aliases: [得利]
+        elements:
+          - 财产利益增加：取得财产权利、扩张占有或者使用、债务消灭、劳务或者服务受领
+          - 利益可以表现为积极的增加或者消极应减而未减
+      - id: loss
+        label: 致他方受损害
+        required: true
+        aliases: [受损害]
+        elements:
+          - 受损失的人遭受财产利益减少
+          - 得利与受损之间有直接关联（同一事实引起）
+      - id: no_legal_ground
+        label: 无法律上原因
+        required: true
+        aliases: [没有法律根据]
+        elements:
+          - 给付型：给付目的不存在、目的不达或者给付原因嗣后消灭
+          - 非给付型：侵害权益、支出费用、求偿等未经法律认可的利益变动
+          - 检索在先：存在契约关系、其他法定权源时，利益即具有法律上原因，不成立不当得利
+
+  - id: effects
+    label: 返还范围与抗辩
+    order: 2
+    nature: 法律效果
+    checks:
+      - id: restitution_scope
+        label: 返还范围
+        required: true
+        aliases: [返还利益]
+        elements:
+          - 善意得利人：返还现存利益，利益已不存在的免除返还责任（第 986 条）
+          - 恶意得利人：返还全部利益并依法赔偿损失（第 987 条）
+          - 原物不能返还时折价偿还
+      - id: exclusions
+        label: 除外情形
+        required: false
+        aliases: [不当得利除外]
+        elements:
+          - 为履行道德义务进行的给付（第 985 条第一项）
+          - 债务到期之前的清偿（第 985 条第二项）
+          - 明知无给付义务而进行的债务清偿（第 985 条第三项）
+
+  - id: boundaries
+    label: 与其他请求权的边界
+    order: 3
+    nature: 体系定位
+    checks:
+      - id: contract_priority
+        label: 契约优先
+        required: true
+        aliases: [有合同即无不当得利]
+        elements:
+          - 当事人间存在合同关系时，一方取得利益具有法律上原因，不当得利不成立
+          - 立案案由为不当得利而庭审查明存在合同关系的，按合同案由审理
+      - id: tort_concurrence
+        label: 与侵权责任的竞合
+        required: false
+        aliases: [不当得利与侵权]
+        elements:
+          - 同一事实同时符合侵权与不当得利要件的，请求权竞合，由权利人选择
+          - 恶意得利人兼侵权人的，返还与赔偿的关系（第 987 条）

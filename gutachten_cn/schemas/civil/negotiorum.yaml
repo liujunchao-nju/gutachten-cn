@@ -1,0 +1,97 @@
+system: negotiorum
+label: 无因管理上请求权检视程式
+domain: civil
+default: false
+version: 1
+
+description: >
+  针对「无因管理上请求权」的专门检视程式，是请求权基础七步检索的第三步。
+  三要件：管理他人事务、有为他人管理的意思、无法定或者约定的义务。
+  管理适法的，管理人享有必要费用偿还请求权；管理不适法的，法律效果另有限缩。
+
+source: |
+  《中华人民共和国民法典》第 979-984 条（合同编准合同部分）。
+  第 979 条：管理人没有法定的或者约定的义务，为避免他人利益受损失而管理
+  他人事务的，可以请求受益人偿还为管理事务而支出的必要费用；管理人因管理
+  事务受到损失的，可以请求受益人给予适当补偿。
+  第 980 条：管理人管理事务不属于前条规定的情形，但是符合受益人真实意思的，
+  享有前条规定的权利。第 981-983 条：管理人的通知、适当管理、报告与计算义务。
+
+subsumption:
+  label: 请求权基础分析四步
+  steps:
+    - 判断请求权性质与内容（谁向谁主张什么）
+    - 检索并确定请求权基础规范（找法）
+    - 分解该规范的构成要件，将本案事实逐项涵摄
+    - 检验是否存在请求权变更、消灭或受阻的情形（抗辩）
+
+stages:
+  - id: elements
+    label: 无因管理三要件
+    order: 1
+    nature: 积极检验
+    checks:
+      - id: management_of_affairs
+        label: 管理他人事务
+        required: true
+        aliases: [管理事务]
+        elements:
+          - 客观上属于他人事务，或者中性事务（为他人利益管理之）
+          - 管理行为：保存、利用、改良、处分、服务等（处分以不违反本人意思为限）
+      - id: intent_for_others
+        label: 为他人管理的意思
+        required: true
+        aliases: [利他意思]
+        elements:
+          - 管理人具有为他人谋利益的意思，并将管理利益归属于本人
+          - 误将他人事务认为自己事务而管理的，欠缺该意思，不成立真正无因管理
+      - id: no_obligation
+        label: 无法定或约定的义务
+        required: true
+        aliases: [无义务性]
+        elements:
+          - 管理人对管理事务不负有法定义务（如父母对未成年子女）
+          - 管理人与本人之间不存在委托等约定义务
+          - 检索在先：存在委托合同等契约关系时，排除无因管理（契约优先原则）
+
+  - id: effects
+    label: 法律效果
+    order: 2
+    nature: 管理人的请求权
+    checks:
+      - id: reimbursement
+        label: 必要费用偿还请求权
+        required: true
+        aliases: [费用偿还]
+        elements:
+          - 支出的必要性：管理事务客观上必要或者通常必要
+          - 偿还范围以必要费用为限，不包括管理人的报酬
+      - id: compensation
+        label: 损失补偿请求权
+        required: true
+        aliases: [适当补偿]
+        elements:
+          - 管理人因管理事务受到损失的，可以请求受益人给予适当补偿（第 979 条第二款）
+          - 补偿以「适当」为限，综合考虑损失与受益情况
+      - id: ill_intentioned_management
+        label: 不适法无因管理
+        required: false
+        aliases: [不适法管理]
+        elements:
+          - 管理事务不利于本人或者违反本人真实意思的，不享有前条权利（第 980 条反面）
+          - 违反本人意思管理但符合其真实意思的，仍享有偿还与补偿权利（第 980 条）
+
+  - id: duties
+    label: 管理人的义务
+    order: 3
+    nature: 消极检视
+    checks:
+      - id: manager_duties
+        label: 通知、管理与报告义务
+        required: false
+        aliases: [管理人义务]
+        elements:
+          - 及时通知本人并等待指示；急迫情形除外（第 981、982 条）
+          - 以有利于本人的方法管理，中断不利管理（第 982 条）
+          - 报告义务与交付利益义务（第 983 条）
+          - 管理人过错致本人损害的，负赔偿责任
